@@ -1,0 +1,50 @@
+.header {
+    display: flex;
+    align-content: space-between;
+    background: #FFFFFF;
+    width: 1440px;
+    height: 80px;
+    position: relative;
+}
+
+.blog-name h6 {
+    position: relative;
+    width: 147px;
+    height: 56px;
+    left: 22px;
+    top: 9px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.sign-up-btn {
+    box-sizing: border-box;
+    width: 109px;
+    height: 51px;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+    background-color: white;
+    margin-left: 19px;
+    color: #52C41A;
+}
+
+.sign-in-btn {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.button-block {
+    position: absolute;
+    top: 16px;
+    right: 22px;
+}

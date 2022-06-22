@@ -1,0 +1,11 @@
+.app {
+  background: #E5E5E5;
+}
+
+.main-container {
+  width: 1440px;
+  min-height: 100vh;
+  background: #EBEEF3;
+  margin: auto;
+}
+

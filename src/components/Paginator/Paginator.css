@@ -1,0 +1,10 @@
+.ant-pagination:not(:last-child) {
+
+
+}
+
+.paginator-container {
+    display: flex;
+    justify-content: center;
+    margin: 27px 0 18px;
+}

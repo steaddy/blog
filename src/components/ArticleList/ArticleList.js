@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import classes from './ArticleList.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getArticleList} from "../../store/articleListActions";
-import {Pagination} from 'antd';
 import 'antd/dist/antd.css';
 import Paginator from "../Paginator";
 

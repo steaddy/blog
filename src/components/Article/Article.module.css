@@ -1,8 +1,13 @@
-.list-item {
+.article-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.article {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 140px;
+    min-height: 750px;
     width: 941px;
     background: #FFFFFF;
     border-radius: 5px;
@@ -27,7 +32,6 @@
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
-    margin-bottom: 0;
 }
 
 .likes {
@@ -68,6 +72,7 @@ svg {
     width: 690px;
     height: 45px;
     overflow: hidden;
+    margin-top: 19px;
 }
 
 .user-info {

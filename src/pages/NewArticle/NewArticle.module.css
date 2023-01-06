@@ -1,0 +1,22 @@
+
+.input-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #262626;
+}
+
+.form-input {
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    width: 320px;
+    height: 40px;
+    margin-bottom: 12px;
+    padding-left: 12px;
+}

@@ -8,33 +8,33 @@ import ArticleListItem from "../ArticleListItem/ArticleListItem";
 import {getArticleList} from "../../store/articleListActions";
 import ArticleList from "../ArticleList";
 import Paginator from "../Paginator";
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Article from "../Article/Article";
+import {getArticle} from "../../store/articleActions";
+import SignIn from "../../pages/SignIn";
+import SignUp from "../../pages/SignUp";
 
 
 function App() {
-
-    const userName = 'Bob';
-    const postTime = 'March, 5, 2020';
+/*
 
     const dispatch = useDispatch();
     let articleList = useSelector(state => state.articleList.articleList);
+    let article = useSelector(state => state.article.article);
+*/
 
-    console.log(articleList);
-
-    const getArticleListHandler = () => {
-        dispatch(getArticleList());
-    };
 
     return (
         <div className={classes.app}>
             <div className={classes["main-container"]}>
                 <Header/>
-                <ArticleList/>
-
-                {/* <UserPostInfo userName={userName} postTime={postTime}/>*/}
-
-
-                <button onClick={getArticleListHandler}>Get List of Articles</button>
-
+                    <Routes>
+                        <Route path='/'  element={<ArticleList/>}/>
+                        <Route path='articles' element={<ArticleList/>}/>
+                        <Route path='/articles/:slug' element={<Article/>}/>
+                        <Route path='/sign-in' element={<SignIn/>}/>
+                        <Route path='/sign-up' element={<SignUp/>}/>
+                    </Routes>
             </div>
         </div>
     );

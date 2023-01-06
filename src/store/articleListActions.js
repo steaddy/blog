@@ -1,7 +1,7 @@
-import {articleListActions} from "./articleListSlice";
+import { articleListActions } from "./articleListSlice";
 
 export const getArticleList = (page) => {
-    const limit = 10;
+    const limit = 10;   // Articles on page
     let offset = 0;
 
     if(page) offset = page * limit;
@@ -10,7 +10,7 @@ export const getArticleList = (page) => {
     return async (dispatch) => {
         const getData = async () => {
             const response = await fetch(
-                `https://kata.academy:8021/api/articles/?limit=${limit}&offset=${offset}`,
+                `https://blog.kata.academy/api/articles/?limit=${limit}&offset=${offset}`,
                 {
                     headers: {}
                 });

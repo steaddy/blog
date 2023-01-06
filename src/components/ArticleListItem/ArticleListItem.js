@@ -1,10 +1,12 @@
 import React from "react";
 import classes from './ArticleListItem.module.css';
+import {Link} from "react-router-dom";
 
 const ArticleListItem = ({
+                             slug,
                              title,
                              likes = 0,
-                             body,
+                             description,
                              tagList,
                              image,
                              userName,
@@ -16,7 +18,7 @@ const ArticleListItem = ({
 
 
                 <div className={classes['title-block']}>
-                    <h5 className={classes.title}>{title}</h5>
+                    <h5 className={classes.title}><Link to={`/articles/${slug}`}>{title}</Link></h5>
 
                     <span className={classes['likes-block']}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,13 +34,14 @@ const ArticleListItem = ({
 
                 <div className={classes.tags}>
                     {tagList.map(tag => {
+                        if(!tag) return;
                         return <span className={classes.tag}>{tag}</span>;
                     })}
                 </div>
 
 
-                <p className={classes['article-body']}>
-                    {body}
+                <p className={classes['article-description']}>
+                    {description}
                 </p>
             </div>
 

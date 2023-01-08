@@ -22,7 +22,6 @@ export const getArticleList = (page) => {
 
         try {
             const articleListData = await getData();
-            console.log(articleListData);
             dispatch(articleListActions.getArticleList(
                 {articleList: articleListData}));
         } catch (e) {

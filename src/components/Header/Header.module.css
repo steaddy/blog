@@ -34,17 +34,59 @@
     color: #52C41A;
 }
 
-.sign-in-btn {
+.active {
+    box-sizing: border-box;
+    width: 109px;
+    height: 51px;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+    background-color: white;
+    color: #52C41A;
+    display: block;
+    text-align: center;
+    line-height: 46px;
+    margin-left: 19px;
+}
+
+.logout {
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+}
+
+.btn {
+    box-sizing: border-box;
+    width: 109px;
+    height: 51px;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
-    line-height: 28px;
     color: rgba(0, 0, 0, 0.85);
+    display: block;
+    text-align: center;
+    line-height: 46px;
+    margin-left: 19px;
 }
 
 .button-block {
+    display: flex;
     position: absolute;
     top: 16px;
     right: 22px;
+}
+
+.user-info {
+    display: flex;
+    box-sizing: border-box;
+    height: 51px;
+}
+
+.user-name {
+    margin-left: 27px;
+    line-height: 46px;
+}
+
+.user-icon {
+    margin-left: 13px;
+    line-height: 46px;
 }

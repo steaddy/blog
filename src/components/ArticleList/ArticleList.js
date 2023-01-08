@@ -7,8 +7,7 @@ import Paginator from "../Paginator";
 
 const ArticleList = () => {
     const dispatch = useDispatch();
-    const articleList = useSelector(state => state.articleList.articleList);
-    const total = useSelector(state => state.articleList.total);
+    const { articleList, total } = useSelector(state => state.articleList);
 
     const onPageChangeHandler = page => {
         dispatch(getArticleList(page));

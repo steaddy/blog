@@ -1,17 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './SignUp.module.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import classes from './SignUp.module.css'
 import {useSelector, useDispatch} from "react-redux";
-import {enterEmail, enterUserName} from "../../store/forms/signUpActions";
-import {registerNewUser} from "../../store/forms/signUpSlice";
+import {registerNewUser, authActions} from "../../store/forms/authSlice";
+import Spinner from "../../components/Spinner";
 
 const SignUp = props => {
 
-    const { name, email } = useSelector(state => state.auth.user);
+    const { isSuccess, isLoading, isError } = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isSuccess) {
+            navigate('/');
+        }
+        dispatch(authActions.reset())
+    }, [isSuccess, isLoading, isError, dispatch, navigate])
 
     const {
         register,
@@ -25,20 +33,13 @@ const SignUp = props => {
         // reset();
     };
 
-/*
-    const [emailInput, setEmailInput] = useState('');
-    const [passwordIsValid, setPasswordIsValid] = useState(true);*/
-    /*
 
-        const signInFormHandler = e => {
-            e.preventDefault();
-            console.log();
-        };
-    */
-/*
-    const passwordValidator = e => {
-        e.target.value.length < 6 ? setPasswordIsValid(false) : setPasswordIsValid(true);
-    };*/
+
+    if(isLoading) {
+        return <Spinner/>
+    }
+
+
 
     return (
         <div className={classes['sign-in-wrapper']}>
@@ -131,81 +132,6 @@ const SignUp = props => {
                         <span>Already have an account? <span><Link to='/sign-in'>Sign In.</Link></span></span>
                     </div>
                 </form>
-                <div>Name: {name}</div>
-                <div>Email: {email}</div>
-                <div>{errors['user-name'] && <p>Ошибка в юзер-нэйм: {errors['user-name']?.message}</p>}</div>
-
-
-
-
-
-
-
-
-
-
-                <button onClick={async ()=>{
-
-                    let user = {
-                        user: {
-                            username: "Name99",
-                            email: "email99@mail.ru",
-                            password: "password99"
-                        }
-                    };
-
-                    let response = await fetch(`https://blog.kata.academy/api/users/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user)
-
-                    });
-                    if(response.ok) {
-                        console.log('ok');
-                    } else {
-                        console.log('The Error is: ' + response.status);
-                    }
-                    console.log(await response.json())
-                }}>Create a user</button>
-
-
-
-                <button onClick={async ()=>{
-
-                    let user = {
-                        user: {
-                            email: "email99@mail.ru",
-                            password: "password99"
-                        }
-                    };
-
-                    let response = await fetch(`https://blog.kata.academy/api/users/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user)
-
-                    });
-                    if(response.ok) {
-                        console.log('ok');
-                    } else {
-                        console.log('The Error is: ' + response.status);
-                    }
-                    console.log(await response.json())
-                }}>Log In</button>
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
     );

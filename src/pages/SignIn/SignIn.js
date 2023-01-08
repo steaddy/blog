@@ -1,9 +1,10 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import classes from './SignIn.module.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {loginUser} from "../../store/forms/signUpSlice";
+import {authActions, loginUser} from "../../store/forms/authSlice";
+import Spinner from "../../components/Spinner";
 
 const SignIn = () => {
 
@@ -13,45 +14,32 @@ const SignIn = () => {
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
+
     const auth = useSelector(state => state.auth);
 
-/*
-
-    // Testing
-
-
-    const signInFormHandler = async data => {
-
-        const response = await fetch(`https://blog.kata.academy/api/users/login`, {
-            method: 'POST',
-            headers: {
-
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                user: {
-                    email: data.email,
-                    password: data.password,
-                }
-            })
-        });
-
-        const answer = await response.json();
-
-        console.log(answer);
-    };
-*/
+    useEffect(() => {
+        if(auth.isSuccess || auth.user) {
+            navigate('/');
+        }
+        dispatch(authActions.reset())
+    }, [auth.isSuccess])
 
     const onSubmit = data => {
         dispatch(loginUser(data));
     };
 
 
+    if(auth.isLoading) {
+        return <Spinner/>
+    }
+
+
     return (
         <div className={classes['sign-in-wrapper']}>
             <div className={classes['sign-in-form']}>
                 <h6 className={classes['sign-in-header']}>Sign In</h6>
-                <h2>{`Hi, ${auth.user.name}`}</h2>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
 

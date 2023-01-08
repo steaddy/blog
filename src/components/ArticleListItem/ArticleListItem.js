@@ -12,8 +12,9 @@ const ArticleListItem = ({
                              userName,
                              createdAt
                          }) => {
+
     return (
-        <div className={classes['list-item']}>
+        <div key={slug} className={classes['list-item']}>
             <div className={classes['article-info']}>
 
 
@@ -34,7 +35,7 @@ const ArticleListItem = ({
 
                 <div className={classes.tags}>
                     {tagList.map(tag => {
-                        if(!tag) return;
+                        if (!tag) return;
                         return <span className={classes.tag}>{tag}</span>;
                     })}
                 </div>

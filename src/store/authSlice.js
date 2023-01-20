@@ -10,7 +10,6 @@ const initialState = {
     isSuccess: false,
     isError: false,
 };
-console.log(initialState);
 
 
 // Register a new user
@@ -76,6 +75,69 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 });
 
 
+
+
+
+
+// Edit User Info
+export const editUserInfo = createAsyncThunk('auth/editUserInfo',
+    async (user, {
+        thunkAPI,
+        dispatch
+    }) => {
+        try {
+
+
+  /*
+
+            const res = await axios.put({
+                url: `https://blog.kata.academy/api/user`,
+                method: 'PUT',
+                data: {
+                    "user": {
+                        "email": user.email,
+                        "password": user.password
+                    }
+                },
+                headers: {Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTgzNTQxMjA3NTk0MWIwMGU0NzcyMiIsInVzZXJuYW1lIjoiam9zZSIsImV4cCI6MTY3ODUyMDk3OCwiaWF0IjoxNjczMzM2OTc4fQ.Qs9cfei_EGahobQGXsYwZo1aOmgXPKwjESIX58EjaPA`}
+            })
+
+    */
+
+
+            const res = await fetch('https://blog.kata.academy/api/user', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    user: {
+                        username: user.username,
+                        email: user.email,
+                        password: user.password,
+                    }
+                }),
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                }
+
+            })
+
+
+            const data = await res.json();
+            console.log(data);
+
+
+            if (res.ok) {
+                localStorage.setItem('user', JSON.stringify(data));
+                return data;
+            }
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e)
+        }
+    }
+)
+
+
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
@@ -122,6 +184,23 @@ const authSlice = createSlice({
                 state.user = null;
                 console.log('Rejected')
                 console.log(action.payload)
+            })
+            .addCase(editUserInfo.pending, state => {
+                state.isLoading = true;
+                console.log('Pending')
+            })
+            .addCase(editUserInfo.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload.user;
+                console.log('Fulfilled')
+                console.log(state)
+            })
+            .addCase(editUserInfo.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                console.log('Rejected')
+                console.log(action.error)
             })
             .addCase(logout.fulfilled, state => {
                 state.user = null;

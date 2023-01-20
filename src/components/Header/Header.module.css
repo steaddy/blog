@@ -90,3 +90,15 @@
     margin-left: 13px;
     line-height: 46px;
 }
+
+.create-article {
+    color:  #52C41A;
+    font-size: 14px;
+    line-height: 12px;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+    width: 112px;
+    padding: 10px 6px;
+    height: 31px;
+    margin-top: 10px;
+}

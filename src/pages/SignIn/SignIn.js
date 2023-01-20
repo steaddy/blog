@@ -3,7 +3,7 @@ import classes from './SignIn.module.css';
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {authActions, loginUser} from "../../store/forms/authSlice";
+import {authActions, loginUser} from "../../store/authSlice";
 import Spinner from "../../components/Spinner";
 
 const SignIn = () => {

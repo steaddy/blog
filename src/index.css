@@ -8,6 +8,7 @@ button {
     border: none;
     background: none;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .ant-pagination:not(:last-child) {
@@ -34,4 +35,26 @@ button {
     border-color: #000 transparent #555 transparent;
     border-radius: 50%;
     animation: spin 1.2s linear infinite;
+}
+
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #BFBFBF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #BFBFBF;
+    opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #BFBFBF;
+    opacity:  1;
 }

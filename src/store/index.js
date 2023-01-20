@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import articleListSlice from "./articleListSlice";
 import 'normalize.css';
 import articleSlice from "./articleSlice";
-import authSlice from "./forms/authSlice";
+import authSlice from "./authSlice";
 
 const store = configureStore({
     reducer: {

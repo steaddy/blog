@@ -2,7 +2,7 @@ import React from 'react';
 import classes from "./Header.module.css";
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
-import {logout} from "../../store/forms/authSlice";
+import {logout} from "../../store/authSlice";
 
 export default () => {
 
@@ -27,11 +27,17 @@ export default () => {
 
                 {user ? (
                     <>
+                        <Link to='/new-article'
+                            onClick={onLogout}
+                            className={[classes['btn'], classes['create-article'],].join(' ')}
+                        >Create Article
+                        </Link>
                         <div className={classes['user-info']}>
-                            <div className={classes['user-name']}>{user.username}</div>
-                            <div className={classes['user-icon']}>Icon</div>
+                            <Link to='/profile' className={classes['user-name']}>{user.username}</Link>
+                            <Link to='/profile' className={classes['user-icon']}>Icon</Link>
                         </div>
-                        <button onClick={onLogout} className={[classes['btn'], classes['logout'],].join(' ')}>Log Out</button>
+                        <button onClick={onLogout} className={[classes['btn'], classes['logout'],].join(' ')}>Log Out
+                        </button>
                     </>
                 ) : (
                     <>

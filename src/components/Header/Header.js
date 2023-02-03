@@ -10,6 +10,7 @@ export default () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
     const onLogout = () => {
         dispatch(logout());
         navigate('/');
@@ -28,7 +29,6 @@ export default () => {
                 {user ? (
                     <>
                         <Link to='/new-article'
-                            onClick={onLogout}
                             className={[classes['btn'], classes['create-article'],].join(' ')}
                         >Create Article
                         </Link>

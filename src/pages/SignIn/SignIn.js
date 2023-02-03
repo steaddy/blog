@@ -20,7 +20,7 @@ const SignIn = () => {
     const auth = useSelector(state => state.auth);
 
     useEffect(() => {
-        if(auth.isSuccess || auth.user) {
+        if (auth.isSuccess || auth.user) {
             navigate('/');
         }
         dispatch(authActions.reset())
@@ -31,7 +31,7 @@ const SignIn = () => {
     };
 
 
-    if(auth.isLoading) {
+    if (auth.isLoading) {
         return <Spinner/>
     }
 
@@ -46,7 +46,13 @@ const SignIn = () => {
                     <div className={classes['input-block']}>
                         <label htmlFor="email" className={classes['form-label']}>Email address</label>
                         <input
-                            {...register('email', {required: true, pattern: {value: /@/g, message: 'Enter email correctly'}})}
+                            {...register('email', {
+                                required: true,
+                                pattern: {
+                                    value: /@/g,
+                                    message: 'Enter email correctly'
+                                }
+                            })}
                             value={emailInput}
                             onChange={event => setEmailInput(event.target.value)}
                             id='email'

@@ -82,7 +82,7 @@
     border: 1px solid #1890FF;
     border-radius: 4px;
     color: #1890FF;
-    margin-left: 17px;
+    margin-top: 5px;
 }
 
 .submit-button {
@@ -95,4 +95,14 @@
     box-sizing: border-box;
     padding: 0;
     cursor: pointer;
+}
+
+
+.input-error {
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 22px;
+    color: #F5222D;
 }

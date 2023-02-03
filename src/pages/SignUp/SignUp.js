@@ -9,13 +9,13 @@ import Spinner from "../../components/Spinner";
 
 const SignUp = props => {
 
-    const { isSuccess, isLoading, isError } = useSelector(state => state.auth);
+    const {isSuccess, isLoading, isError} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(isSuccess) {
+        if (isSuccess) {
             navigate('/');
         }
         dispatch(authActions.reset())
@@ -34,11 +34,9 @@ const SignUp = props => {
     };
 
 
-
-    if(isLoading) {
+    if (isLoading) {
         return <Spinner/>
     }
-
 
 
     return (
@@ -71,7 +69,9 @@ const SignUp = props => {
                             />
                         </label>
                         <div>
-                            <p className={classes['input-error']}>{errors['username'] && errors['username']?.message}</p>
+                            <p className={classes['input-error']}>
+                                {errors['username'] && errors['username']?.message}
+                            </p>
                         </div>
                     </div>
 
@@ -126,7 +126,7 @@ const SignUp = props => {
                         <p className={classes['input-error']}>Your password needs to be at least 6 characters.</p>}
                     </div>
 
-                    <button className={classes['sign-up-button']} >Create</button>
+                    <button className={classes['sign-up-button']}>Create</button>
 
                     <div className={classes['dont-have-acc-element']}>
                         <span>Already have an account? <span><Link to='/sign-in'>Sign In.</Link></span></span>

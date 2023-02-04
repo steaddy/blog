@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import classes from "./NewArticle.module.css";
-import TagItem from "../../components/TagItem/TagItem";
 import {useNavigate} from "react-router-dom";
 import {v4} from 'uuid';
 import {useFieldArray, useForm} from "react-hook-form";
@@ -35,11 +34,41 @@ const NewArticle = () => {
     });
 
 
-    const onSubmit =  (data, e) => {
+    const onSubmit =  async (data, e) => {
         e.preventDefault();
         if(!isValid) return;
-        console.log(localStorage.getItem('user'))
-        console.log(data);
+        console.log(JSON.parse(localStorage.getItem('user')).token)
+        console.log(data.tags);
+        const tagList = data.tags.map(item => (
+            item.name
+        ))
+        const payload = {
+            article: {
+                title: data.title,
+                description: data.description,
+                body: data['article-text'],
+                tagList: tagList,
+            }
+        }
+        console.log(JSON.stringify(payload))
+
+        try {
+            const res = await fetch('https://blog.kata.academy/api/articles', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                }
+            })
+
+            const resData = await res.json();
+            console.log(data);
+        } catch (e) {
+            console.log(e.message)
+        }
+
+
 /*
         console.log(errors);
 */

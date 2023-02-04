@@ -64,7 +64,6 @@ svg {
     line-height: 22px;
     color: rgba(0, 0, 0, 0.75);
     word-break: break-word;
-    width: 690px;
     overflow: hidden;
     margin-top: 19px;
 }
@@ -93,6 +92,7 @@ svg {
     font-size: 18px;
     line-height: 28px;
     color: rgba(0, 0, 0, 0.85);
+    overflow: hidden;
 }
 
 .date {
@@ -151,4 +151,6 @@ svg {
 
 .article-buttons {
     margin-top: 28px;
+    display: flex;
+    justify-content: right;
 }

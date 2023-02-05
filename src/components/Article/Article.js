@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
 import classes from './Article.module.css';
-import {Link, NavLink, useParams} from "react-router-dom";
+import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getArticle} from "../../store/articleActions";
 import {getUIDate} from "../../services/services";
+import {Popconfirm, message} from "antd";
 
 const Article = ({
                      title = 'No Title',
@@ -17,6 +18,7 @@ const Article = ({
                  }) => {
 
     const {slug} = useParams();
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
     const art = useSelector(state => state.article.article);
@@ -28,7 +30,13 @@ const Article = ({
         dispatch(getArticle(slug));
     }, [])
 
+    const cancel = e => {
+        message.error('Click on no');
+    };
+
     const deleteArticle = async () => {
+
+        message.success('Click on Yes');
         try {
             const res = await fetch(`https://blog.kata.academy/api/articles/${slug}`, {
                 method: 'DELETE',
@@ -44,6 +52,7 @@ const Article = ({
         } catch (e) {
             console.log(e.message)
         }
+        navigate('/');
     };
 
 
@@ -98,11 +107,22 @@ const Article = ({
 
                         {art.author.username === currentUser ? (
                             <div className={classes['article-buttons']}>
-                                <button
-                                    onClick={deleteArticle}
-                                    className={classes['delete-button']}
-                                >Delete
-                                </button>
+
+                                <Popconfirm
+                                    placement='rightTop'
+                                    title='Delete Article'
+                                    description='Are you sure you want to delete this article?'
+                                    onCancel={cancel}
+                                    onConfirm={deleteArticle}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <button
+                                        className={classes['delete-button']}
+                                    >Delete
+                                    </button>
+                                </Popconfirm>
+
                                 <NavLink
                                     to={`/articles/${slug}/edit`}
                                     className={classes['edit-button']}

@@ -59,6 +59,8 @@ button {
     opacity:  1;
 }
 
-h6 {
-    margin-bottom: 0;
+
+/* Иконка во всплывающем окне наползает на тайтл, причина не была найдена */
+div.ant-popover-message span  {
+    left: -12px;
 }

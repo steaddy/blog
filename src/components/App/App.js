@@ -38,6 +38,7 @@ function App() {
                         <Route path='/sign-up' element={<SignUp/>}/>
                         <Route path='/profile' element={<EditUserInfo/>}/>
                         <Route path='/new-article' element={<NewArticle/>}/>
+                        <Route path='/articles/:slug/edit' element={<NewArticle/>}/>
                     </Routes>
             </div>
         </div>

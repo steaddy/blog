@@ -1,13 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import classes from "./NewArticle.module.css";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {v4} from 'uuid';
 import {useFieldArray, useForm} from "react-hook-form";
+import {useSelector} from "react-redux";
 
 const NewArticle = () => {
-    /*
-        const [tags, setTags] = useState([]);
-    */
+    const navigate = useNavigate();
+    const {slug} = useParams();
+    const {article} = useSelector(state => state.article);
+/*
+    const editModeTags =  async article => {
+        const arr = await article.map(item => {
+            return {name: item}
+        })
+        useForm({defaultValues: {tags: arr}})
+    };*/
+
 
     const {
         register,
@@ -20,13 +29,20 @@ const NewArticle = () => {
         handleSubmit
     } = useForm({
         mode: "onBlur",
-        defaultValues: {
-            tags: [{name: ""},]
+        defaultValues:  {
+            tags: !slug ? [{name: ''}] : article.tagList.map(item => (
+                {name: item}
+            ))
+
+
+              /*  [{name: article.tagList[0]}, {name: article.tagList[1]}]*/
         }
     });
 
 
     console.log("Errors: ", errors?.tags);
+    console.log(slug);
+    console.log(article);
 
     const {fields, append, remove,} = useFieldArray( {
         name: 'tags',
@@ -53,8 +69,10 @@ const NewArticle = () => {
         console.log(JSON.stringify(payload))
 
         try {
-            const res = await fetch('https://blog.kata.academy/api/articles', {
-                method: 'POST',
+
+
+            const res = await fetch(`https://blog.kata.academy/api/articles/${slug ? slug : ''}`, {
+                method: slug ? 'PUT' : 'POST',
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
@@ -67,17 +85,9 @@ const NewArticle = () => {
         } catch (e) {
             console.log(e.message)
         }
-
-
-/*
-        console.log(errors);
-*/
-/*
         reset();
-*/
-        /*
-                setTags([]);
-        */
+        navigate('/');
+
     };
 
     /*
@@ -102,10 +112,12 @@ const NewArticle = () => {
     */
 
 
+    console.log(fields);
+
     return (
         <div className={classes['article-wrapper']}>
             <div className={classes['article']}>
-                <h1>Create New Article</h1>
+                <h1>{slug ? 'Edit Article' : 'Create New Article'}</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -114,6 +126,7 @@ const NewArticle = () => {
                         <input
 
                             {...register('title', {
+                                value: slug ? article.title : null,
                                 required: 'Here should be a title',
                                 minLength: {
                                     value: 3,
@@ -124,6 +137,9 @@ const NewArticle = () => {
                                     message: 'Name should be shorter than 20 characters'
                                 }
                             })}
+                            id='title'
+                            placeholder='Title'
+                            className={classes['form-input']}
                         />
 
                         <div>
@@ -138,6 +154,7 @@ const NewArticle = () => {
                         <input
 
                             {...register('description', {
+                                value: slug ? article.description : null,
                                 required: 'Here should be a short description',
                                 minLength: {
                                     value: 3,
@@ -150,7 +167,8 @@ const NewArticle = () => {
                             })}
                             id='description'
                             type="text"
-                            placeholder='Short Description' className={classes['form-input']}
+                            placeholder='Short Description'
+                            className={classes['form-input']}
                         />
 
                         <div>
@@ -165,6 +183,7 @@ const NewArticle = () => {
                         <textarea
 
                             {...register('article-text', {
+                                value: slug ? article.body : null,
                                 required: 'Here should be the text of your article',
                                 minLength: {
                                     value: 10,

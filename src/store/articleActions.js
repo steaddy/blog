@@ -10,7 +10,10 @@ export const getArticle = slug => {
         const getData = async () => {
             const response = await fetch(
                 `https://blog.kata.academy/api/articles/${slug}`, {
-                    headers: {},
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                    },
                 });
             if (!response.ok) {
                 throw new Error('Could not get an article');
@@ -22,7 +25,6 @@ export const getArticle = slug => {
 
         try {
             const articleData = await getData();
-            console.log('Data ' + articleData);
             dispatch(articleActions.getArticle(
                 {article: articleData}));
         } catch (e) {

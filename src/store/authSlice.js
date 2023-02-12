@@ -109,6 +109,8 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
     */
 
 
+            console.log(user);
+
             const res = await fetch('https://blog.kata.academy/api/user', {
                 method: 'PUT',
                 body: JSON.stringify({
@@ -116,6 +118,7 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
                         username: user.username,
                         email: user.email,
                         password: user.password,
+                        image: user.image,
                     }
                 }),
                 headers: {
@@ -131,7 +134,7 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
 
 
             if (res.ok) {
-                localStorage.setItem('user', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(data.user));
                 return data;
             }
         } catch (e) {

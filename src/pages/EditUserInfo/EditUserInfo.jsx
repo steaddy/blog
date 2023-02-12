@@ -8,19 +8,21 @@ import Spinner from "../../components/Spinner";
 
 const EditUserInfo = props => {
 
-    let { user, isSuccess, isLoading, isError } = useSelector(state => state.auth);
+    let {user, isSuccess, isLoading, isError} = useSelector(state => state.auth);
 
 
-    if(!user) user = {};
-    const { username, email, image } = user;
+
+    const {username, email, image} = user;
+
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(isSuccess) {
+        /*if (isSuccess) {
             navigate('/');
-        }
+        }*/
         dispatch(authActions.reset())
     }, [])
 
@@ -33,15 +35,14 @@ const EditUserInfo = props => {
 
     const onSubmit = data => {
         dispatch(editUserInfo(data));
-        // reset();
+        reset();
+        navigate('/')
     };
 
 
-
-    if(isLoading) {
+    if (isLoading) {
         return <Spinner/>
     }
-
 
 
     return (
@@ -71,7 +72,8 @@ const EditUserInfo = props => {
                                 })
                                 }
                                 type="text"
-                                placeholder='User Name' className={classes['form-input']}
+                                placeholder='User Name'
+                                className={`${classes['form-input']} ${!errors['username'] ? '' : classes.invalid}`}
                             />
                         </label>
                         <div>
@@ -88,13 +90,17 @@ const EditUserInfo = props => {
                             defaultValue={email}
                             {...register('email',
                                 {
-                                    required: 'Enter Email'
+                                    required: 'Enter Email',
+                                    pattern: {
+                                        value: /^\S+@\S+\.\S+$/,
+                                        message: 'Enter correct email address'
+                                    }
                                 })
                             }
                             id='email'
                             type="email"
                             placeholder='Email address'
-                            className={classes['form-input']}
+                            className={`${classes['form-input']} ${!errors['email'] ? '' : classes.invalid}`}
                         />
                         <div>
                             <p className={classes['input-error']}>{errors['email'] && errors['email']?.message}</p>
@@ -107,32 +113,61 @@ const EditUserInfo = props => {
                     <div className={classes['input-block']}>
                         <label htmlFor="password" className={classes['form-label']}>New Password</label>
                         <input
-                            {...register('password')}
+                            {...register('password', {
+                                required: "Enter password",
+                                minLength: {
+                                    value: 6,
+                                    message: 'Password should be longer than 6 characters'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'Password should be less than 20 characters'
+                                },
+                            })
+                            }
                             id='password'
                             type="password" placeholder='Password'
-                            className={`${classes['form-input']} ${true ? '' : classes.invalid}`}
+                            className={`${classes['form-input']} ${!errors['password'] ? '' : classes.invalid}`}
                         />
-                        {false &&
-                        <p className={classes['input-error']}>Your password needs to be at least 6 characters.</p>}
+
+                        <div>
+                            <p className={classes['input-error']}>
+                                {errors['password'] && errors['password']?.message}
+                            </p>
+                        </div>
+
+
                     </div>
 
 
                     {/* Logo URL */}
 
                     <div className={classes['input-block']}>
-                        <label htmlFor="password" className={classes['form-label']}>Avatar Image (URL)</label>
+                        <label htmlFor="logo" className={classes['form-label']}>Avatar Image (URL)</label>
                         <input
+                            {...register('image', {
+                                pattern: {
+                                    value: /^((http|https):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/,
+
+                                    message: 'Enter URL address'
+                                }
+                            })}
                             defaultValue={image}
-                            id='repeat-password'
+                            id='logo'
                             type="url"
                             placeholder='http://address.ex/logo.png'
-                            className={`${classes['form-input']} ${true ? '' : classes.invalid}`}
+                            className={`${classes['form-input']} ${!errors['logo'] ? '' : classes.invalid}`}
                         />
-                        {false &&
-                        <p className={classes['input-error']}>Your password needs to be at least 6 characters.</p>}
+
+                        <div>
+                            <p className={classes['input-error']}>
+                                {errors['logo'] && errors['logo']?.message}
+                            </p>
+                        </div>
+
                     </div>
 
-                    <button className={classes['sign-up-button']} >Save</button>
+                    <button className={classes['sign-up-button']}>Save</button>
                 </form>
             </div>
         </div>

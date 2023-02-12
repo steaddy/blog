@@ -87,8 +87,9 @@
 }
 
 .user-icon {
-    margin-left: 13px;
-    line-height: 46px;
+    margin-left: 5px;
+    height: 95%;
+;
 }
 
 .create-article {

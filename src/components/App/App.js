@@ -15,6 +15,7 @@ import SignIn from "../../pages/SignIn";
 import SignUp from "../../pages/SignUp";
 import EditUserInfo from "../../pages/EditUserInfo/EditUserInfo";
 import NewArticle from "../../pages/NewArticle";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
 function App() {
@@ -36,9 +37,9 @@ function App() {
                         <Route path='/articles/:slug' element={<Article/>}/>
                         <Route path='/sign-in' element={<SignIn/>}/>
                         <Route path='/sign-up' element={<SignUp/>}/>
-                        <Route path='/profile' element={<EditUserInfo/>}/>
-                        <Route path='/new-article' element={<NewArticle/>}/>
-                        <Route path='/articles/:slug/edit' element={<NewArticle/>}/>
+                        <Route path='/profile' element={<PrivateRoute><EditUserInfo/></PrivateRoute>}/>
+                        <Route path='/new-article' element={<PrivateRoute><NewArticle/></PrivateRoute>}/>
+                        <Route path='/articles/:slug/edit' element={<PrivateRoute><NewArticle/></PrivateRoute>}/>
                     </Routes>
             </div>
         </div>

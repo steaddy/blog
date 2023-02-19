@@ -1,2 +1,1 @@
-https://blog-steaddy.vercel.app/
-## Markdown try
+[(Link to Blog)](https://blog-steaddy.vercel.app/)

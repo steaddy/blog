@@ -1,1 +1,1 @@
-[(Link to Blog)](https://blog-steaddy.vercel.app/)
+[Link to Blog](https://blog-steaddy.vercel.app/)

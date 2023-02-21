@@ -6,14 +6,16 @@ export const getArticle = slug => {
 
     return async (dispatch) => {
 
+        const headers = localStorage.getItem('user') ? {
+
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+        } : {}
 
         const getData = async () => {
             const response = await fetch(
                 `https://blog.kata.academy/api/articles/${slug}`, {
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8',
-                        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
-                    },
+                    headers: headers,
                 });
             if (!response.ok) {
                 throw new Error('Could not get an article');

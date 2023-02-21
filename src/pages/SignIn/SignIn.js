@@ -8,9 +8,10 @@ import Spinner from "../../components/Spinner";
 
 const SignIn = () => {
 
-    const {register, formState: {errors}, handleSubmit} = useForm();
+    const {register, formState: {errors}, handleSubmit} = useForm({
+        mode: "onBlur"
+    });
 
-    const [emailInput, setEmailInput] = useState('');
 
     const dispatch = useDispatch();
 
@@ -19,18 +20,25 @@ const SignIn = () => {
 
     const auth = useSelector(state => state.auth);
 
+
+
     useEffect(() => {
+
+        console.log(errors)
+
+
         if (auth.isSuccess || auth.user) {
             navigate('/');
         }
         dispatch(authActions.reset())
     }, [auth.isSuccess])
 
+
+
+
     const onSubmit = data => {
         dispatch(loginUser(data));
     };
-
-
     if (auth.isLoading) {
         return <Spinner/>
     }
@@ -47,30 +55,58 @@ const SignIn = () => {
                         <label htmlFor="email" className={classes['form-label']}>Email address</label>
                         <input
                             {...register('email', {
-                                required: true,
+                                required: "Enter email",
                                 pattern: {
-                                    value: /@/g,
+                                    value: /^\S+@\S+\.\S+$/,
                                     message: 'Enter email correctly'
                                 }
                             })}
-                            value={emailInput}
-                            onChange={event => setEmailInput(event.target.value)}
                             id='email'
                             type="email"
                             placeholder='Email address'
                             className={classes['form-input']}
                         />
+
+
+
+
+                        <div>
+                            <p className={classes['input-error']}>
+                                {errors['email'] && errors['email']?.message}
+                            </p>
+                        </div>
                     </div>
+
+
+
+
 
                     <div className={classes['input-block']}>
                         <label htmlFor="password" className={classes['form-label']}>Password</label>
                         <input
-                            {...register('password')}
+                            {...register('password', {
+                                required: "Enter password",
+                                minLength: {
+                                    value: 6,
+                                    message: 'Password should be longer than 6 characters'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'Password should be less than 20 characters'
+                                },
+                            })
+                            }
                             id='password'
                             type="password"
                             placeholder='Password'
                             className={`${classes['form-input']}`}
                         />
+                    </div>
+
+                    <div>
+                        <p className={classes['input-error']}>
+                            {errors['password'] && errors['password']?.message}
+                        </p>
                     </div>
 
                     <input type='submit' className={classes['login-button']} value='Login'/>

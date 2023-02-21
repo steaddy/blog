@@ -23,6 +23,7 @@ const SignUp = props => {
 
     const {
         register,
+        watch,
         formState: {errors, isValid},
         handleSubmit,
         reset,
@@ -42,6 +43,7 @@ const SignUp = props => {
     return (
         <div className={classes['sign-in-wrapper']}>
             <div className={classes['sign-in-form']}>
+
                 <h6 className={classes['sign-in-header']}>Sign Up</h6>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +85,11 @@ const SignUp = props => {
                         <input
                             {...register('email',
                                 {
-                                    required: 'Enter Email'
+                                    required: 'Enter Email',
+                                    pattern: {
+                                        value: /^\S+@\S+\.\S+$/,
+                                        message: 'Enter correct email address'
+                                    }
                                 })
                             }
                             id='email'
@@ -102,13 +108,28 @@ const SignUp = props => {
                     <div className={classes['input-block']}>
                         <label htmlFor="password" className={classes['form-label']}>Password</label>
                         <input
-                            {...register('password')}
+                            {...register('password', {
+                                required: "Enter password",
+                                minLength: {
+                                    value: 6,
+                                    message: 'Password should be longer than 6 characters'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'Password should be less than 20 characters'
+                                },
+                            })
+                            }
                             id='password'
                             type="password" placeholder='Password'
                             className={`${classes['form-input']} ${true ? '' : classes.invalid}`}
                         />
-                        {false &&
-                        <p className={classes['input-error']}>Your password needs to be at least 6 characters.</p>}
+                    </div>
+
+                    <div>
+                        <p className={classes['input-error']}>
+                            {errors['password'] && errors['password']?.message}
+                        </p>
                     </div>
 
 
@@ -117,13 +138,25 @@ const SignUp = props => {
                     <div className={classes['input-block']}>
                         <label htmlFor="password" className={classes['form-label']}>Repeat password</label>
                         <input
+                            {...register("confirm_password", {
+                                required: true,
+                                validate: (val) => {
+                                    if (watch('password') != val) {
+                                        return "Your passwords do no match";
+                                    }
+                                },
+                            })}
                             id='repeat-password'
                             type="password"
                             placeholder='Repeat password'
                             className={`${classes['form-input']} ${true ? '' : classes.invalid}`}
                         />
-                        {false &&
-                        <p className={classes['input-error']}>Your password needs to be at least 6 characters.</p>}
+                    </div>
+
+                    <div>
+                        <p className={classes['input-error']}>
+                            {errors['confirm_password'] && errors['confirm_password']?.message}
+                        </p>
                     </div>
 
                     <button className={classes['sign-up-button']}>Create</button>

@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // Get user from localstorage
 const user = JSON.parse(localStorage.getItem('user'));
@@ -30,11 +31,24 @@ export const registerNewUser = createAsyncThunk('auth/registerNewUser',
             )
 
 
+            console.log(res.data)
+            console.log(res.status)
+
             if (res.data) {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 return res.data;
             }
         } catch (e) {
+            if(e.response.data.errors['username']) {
+                toast.error('Имя занято', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            }
+            if(e.response.data.errors['email']) {
+                toast.error('Email занят', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            }
             return thunkAPI.rejectWithValue(e)
         }
 
@@ -90,27 +104,6 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
         dispatch
     }) => {
         try {
-
-
-  /*
-
-            const res = await axios.put({
-                url: `https://blog.kata.academy/api/user`,
-                method: 'PUT',
-                data: {
-                    "user": {
-                        "email": user.email,
-                        "password": user.password
-                    }
-                },
-                headers: {Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTgzNTQxMjA3NTk0MWIwMGU0NzcyMiIsInVzZXJuYW1lIjoiam9zZSIsImV4cCI6MTY3ODUyMDk3OCwiaWF0IjoxNjczMzM2OTc4fQ.Qs9cfei_EGahobQGXsYwZo1aOmgXPKwjESIX58EjaPA`}
-            })
-
-    */
-
-
-            console.log(user);
-
             const res = await fetch('https://blog.kata.academy/api/user', {
                 method: 'PUT',
                 body: JSON.stringify({
@@ -168,11 +161,26 @@ const authSlice = createSlice({
                 console.log('Fulfilled')
                 console.log(action.payload)
             })
-            .addCase(registerNewUser.rejected, state => {
+            .addCase(registerNewUser.rejected,
+                (state,action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.user = null;
                 console.log('Rejected')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             })
             .addCase(loginUser.pending, state => {
                 state.isLoading = true;
@@ -207,7 +215,6 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 console.log('Rejected')
-                console.log(action.error)
             })
             .addCase(logout.fulfilled, state => {
                 state.user = null;

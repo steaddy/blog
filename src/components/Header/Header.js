@@ -35,10 +35,11 @@ export default () => {
                         </Link>
                         <div className={classes['user-info']}>
                             <Link to='/profile' className={classes['user-name']}>{user.username}</Link>
-                            <Link to='/profile' className={classes['user-icon']}>
+                            <Link to='/profile' >
                                 <i className="fa fa-user" aria-hidden="true"></i>
                                 {/*<img  src={user.author?.image} alt="User Photo"/>*/}
-                                <img className={classes['user-icon']} src="https://img.icons8.com/donald-trump"/>
+                                <img className={classes['user-icon']}
+                                      src={user.image ?  user.image : "https://img.icons8.com/user"}/>
                             </Link>
                         </div>
                         <button onClick={onLogout} className={[classes['btn'], classes['logout'],].join(' ')}>Log Out

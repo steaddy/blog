@@ -9,14 +9,6 @@ const NewArticle = () => {
     const navigate = useNavigate();
     const {slug} = useParams();
     const {article} = useSelector(state => state.article);
-/*
-    const editModeTags =  async article => {
-        const arr = await article.map(item => {
-            return {name: item}
-        })
-        useForm({defaultValues: {tags: arr}})
-    };*/
-
 
     const {
         register,
@@ -89,27 +81,6 @@ const NewArticle = () => {
         navigate('/');
 
     };
-
-    /*
-
-        const addTagHandler = (e) => {
-            e.preventDefault();
-            const tagInput = document.getElementById('tag-input');
-            setTags(
-                 [...tags, <TagItem
-                tag={tagInput.value}
-                id={v4()}
-                key={v4()}
-                deleteTag={deleteTag}
-            />]);
-            tagInput.value = null;
-        };
-
-        const deleteTag = (id) => {
-            console.log(id);
-            console.log(tags);
-        };
-    */
 
 
     console.log(fields);

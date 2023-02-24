@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {v4} from 'uuid';
 import {useFieldArray, useForm} from "react-hook-form";
 import {useSelector} from "react-redux";
+import {toast} from "react-toastify";
 
 const NewArticle = () => {
     const navigate = useNavigate();
@@ -25,16 +26,8 @@ const NewArticle = () => {
             tags: !slug ? [{name: ''}] : article.tagList.map(item => (
                 {name: item}
             ))
-
-
-              /*  [{name: article.tagList[0]}, {name: article.tagList[1]}]*/
-        }
+  }
     });
-
-
-    console.log("Errors: ", errors?.tags);
-    console.log(slug);
-    console.log(article);
 
     const {fields, append, remove,} = useFieldArray( {
         name: 'tags',
@@ -45,8 +38,6 @@ const NewArticle = () => {
     const onSubmit =  async (data, e) => {
         e.preventDefault();
         if(!isValid) return;
-        console.log(JSON.parse(localStorage.getItem('user')).token)
-        console.log(data.tags);
         const tagList = data.tags.map(item => (
             item.name
         ))
@@ -58,7 +49,6 @@ const NewArticle = () => {
                 tagList: tagList,
             }
         }
-        console.log(JSON.stringify(payload))
 
         try {
 
@@ -71,9 +61,11 @@ const NewArticle = () => {
                     'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
                 }
             })
-
-            const resData = await res.json();
-            console.log(data);
+            if(res.ok) {
+                toast.success('New article has been created', {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
+            }
         } catch (e) {
             console.log(e.message)
         }
@@ -83,7 +75,6 @@ const NewArticle = () => {
     };
 
 
-    console.log(fields);
 
     return (
         <div className={classes['article-wrapper']}>

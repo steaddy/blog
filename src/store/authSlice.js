@@ -15,10 +15,7 @@ const initialState = {
 
 // Register a new user
 export const registerNewUser = createAsyncThunk('auth/registerNewUser',
-    async (user, {
-        thunkAPI,
-        dispatch
-    }) => {
+    async (user, {thunkAPI, dispatch}) => {
         try {
             const res = await axios.post(`https://blog.kata.academy/api/users`, {
 
@@ -28,11 +25,11 @@ export const registerNewUser = createAsyncThunk('auth/registerNewUser',
                         "password": user.password,
                     }
                 }
-            )
+            );
 
 
-            console.log(res.data)
-            console.log(res.status)
+            await console.log('Data', res.data)
+            console.log(res)
 
             if (res.data) {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -40,12 +37,12 @@ export const registerNewUser = createAsyncThunk('auth/registerNewUser',
             }
         } catch (e) {
             if(e.response.data.errors['username']) {
-                toast.error('Имя занято', {
+                toast.error('Username is taken', {
                     position: toast.POSITION.TOP_RIGHT
                 })
             }
             if(e.response.data.errors['email']) {
-                toast.error('Email занят', {
+                toast.error('Email is taken', {
                     position: toast.POSITION.TOP_RIGHT
                 })
             }
@@ -75,12 +72,16 @@ export const loginUser = createAsyncThunk('auth/loginUser',
             if (res.data) {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
 
-                console.log(res.data)
 
 
                 return res.data;
             }
         } catch (e) {
+            if(e.response.data.errors) {
+                toast.error('Email or password is invalid', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            }
             return thunkAPI.rejectWithValue(e)
         }
     }
@@ -121,15 +122,29 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
 
             })
 
-
             const data = await res.json();
-            console.log(data);
 
 
             if (res.ok) {
                 localStorage.setItem('user', JSON.stringify(data.user));
+                toast.success('Personal data has been changed', {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
                 return data;
+            } else {
+                toast.error('Email or name is already in use, try another', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
             }
+
+
+
+
+
+
+
+
+
         } catch (e) {
             return thunkAPI.rejectWithValue(e)
         }
@@ -191,7 +206,6 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 console.log('Fulfilled')
-                console.log(state)
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -209,7 +223,6 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 console.log('Fulfilled')
-                console.log(state)
             })
             .addCase(editUserInfo.rejected, (state, action) => {
                 state.isLoading = false;

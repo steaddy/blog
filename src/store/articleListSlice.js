@@ -16,8 +16,6 @@ const articleListSlice = createSlice({
 
 
             state.total = action.payload.articleList.articlesCount;
-            console.log(action.payload.articleList)
-
             state.articleList = action.payload.articleList.articles.map(item => {
                 return <ArticleListItem
                     key={v4()}

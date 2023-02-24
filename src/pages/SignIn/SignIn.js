@@ -23,10 +23,6 @@ const SignIn = () => {
 
 
     useEffect(() => {
-
-        console.log(errors)
-
-
         if (auth.isSuccess || auth.user) {
             navigate('/');
         }

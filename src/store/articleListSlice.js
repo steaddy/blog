@@ -1,8 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import ArticleListItem from "../components/ArticleListItem/ArticleListItem";
 import React from "react";
-import { getUIDate } from './../services/services';
-import {v4} from 'uuid'
+import {getUIDate} from './../services/services';
 
 
 const articleListSlice = createSlice({
@@ -17,6 +16,21 @@ const articleListSlice = createSlice({
 
             state.total = action.payload.articleList.articlesCount;
             state.articleList = action.payload.articleList.articles.map(item => {
+
+                return {
+                    slug: item.slug,
+                    title: item.title,
+                    likes: item.likes,
+                    description: item.description,
+                    tagList: item.tagList,
+                    image: item.author.image,
+                    userName: item.author.username,
+                    favorited: item.favorited,
+                    createdAt: getUIDate(item.createdAt),
+                }
+
+
+                /*
                 return <ArticleListItem
                     key={v4()}
                     slug={item.slug}
@@ -29,6 +43,8 @@ const articleListSlice = createSlice({
                     favorited={item.favorited}
                     createdAt={getUIDate(item.createdAt)}
                 />
+                */
+
             });
         }
     }

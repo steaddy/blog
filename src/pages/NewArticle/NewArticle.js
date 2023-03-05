@@ -66,7 +66,8 @@ const NewArticle = () => {
             body,
         }).then(obj => {
             if(obj.ok) {
-                toast.success('New article has been created', {
+                const toastMessage = slug ? 'The Article has been changed' : 'New article has been created'
+                toast.success(toastMessage, {
                     position: toast.POSITION.TOP_RIGHT,
                 })
             }

@@ -19,7 +19,10 @@ try {
         headers: headers
     });
     const data = await res.json();
-    return data;
+    return {
+        data,
+        ok: res.ok,
+    };
 } catch (e) {
     console.log(e.message)
 }

@@ -5,12 +5,14 @@ import {v4} from 'uuid';
 import {useFieldArray, useForm} from "react-hook-form";
 import {useSelector} from "react-redux";
 import {toast} from "react-toastify";
+import useFetch from "../../hook/useFetch";
 
 const NewArticle = () => {
     const navigate = useNavigate();
     const {slug} = useParams();
     const {article} = useSelector(state => state.article);
     const {token} = useSelector(state => state.auth.user);
+    const fetchNow = useFetch();
 
 
     const {
@@ -52,25 +54,25 @@ const NewArticle = () => {
             }
         }
 
-        try {
 
 
-            const res = await fetch(`https://blog.kata.academy/api/articles/${slug ? slug : ''}`, {
-                method: slug ? 'PUT' : 'POST',
-                body: JSON.stringify(payload),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            if(res.ok) {
+        const url = `https://blog.kata.academy/api/articles/${slug ? slug : ''}`
+        const method = slug ? 'PUT' : 'POST'
+        const body = payload
+
+        fetchNow(url, {
+            url,
+            method,
+            body,
+        }).then(obj => {
+            if(obj.ok) {
                 toast.success('New article has been created', {
                     position: toast.POSITION.TOP_RIGHT,
                 })
             }
-        } catch (e) {
-            console.log(e.message)
-        }
+        }).catch(e => console.log(e.message))
+
+
         reset();
         navigate('/');
 

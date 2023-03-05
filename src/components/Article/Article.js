@@ -33,7 +33,7 @@ const Article = () => {
     };
 
 
-    const deleteArticle =  () => {
+    const deleteArticle =  async () => {
 
             const data =  fetchNow(`https://blog.kata.academy/api/articles/${slug}`, {
                 method: 'DELETE',
@@ -44,21 +44,9 @@ const Article = () => {
             position: toast.POSITION.TOP_RIGHT,
         })
 
-        dispatch(getArticleList());
+        await dispatch(getArticleList());
         navigate('/')
-        /*
-                /!*message.success('The Article has been deleted');*!/
-                try {
-                    const res = deleteArticleQuery(slug);
-                    if (res.ok) {
-                        toast.success('The Article has been deleted', {
-                            position: toast.POSITION.TOP_RIGHT,
-                        })
-                    }
-                } catch (e) {
-                    console.log('Error: ', e.message)
-                }
-                ;*/
+
     };
 
 
@@ -71,24 +59,6 @@ const Article = () => {
         })
 
     }
-    /*
-    const likesHandler = async () => {
-        try {
-            const res = await fetch(`https://blog.kata.academy/api/articles/${slug}/favorite`, {
-                method: art.favorited ? 'DELETE' : 'POST',
-                body: JSON.stringify({slug: slug}),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
-                }
-            });
-        } catch (e) {
-            console.log(e.message);
-        }
-        dispatch(getArticle(slug));
-    };
-*/
-
     return (
 
         <ErrorBoundary>
@@ -181,11 +151,11 @@ const Article = () => {
 
                     </div>
 
-                    <p className={classes['article-body']}>
+                    <div className={classes['article-body']}>
                         <ReactMarkdown>
                             {art.body}
                         </ReactMarkdown>
-                    </p>
+                    </div>
                 </div>
 
 

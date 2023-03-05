@@ -19,7 +19,7 @@ function App() {
     return (
         <div className={classes.app}>
             <div className={classes["main-container"]}>
-                <ToastContainer autoClose={10000}/>
+                <ToastContainer autoClose={5000}/>
                 <Header/>
                     <Routes>
                         <Route path='/'  element={<ArticleList/>}/>

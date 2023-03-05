@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 import Likes from "../Likes/Likes";
 import {useDispatch} from "react-redux";
 import {getArticleList} from "../../store/articleListActions";
+import {v4} from "uuid";
+import useFetch from "../../hook/useFetch";
 
 const ArticleListItem = ({
                              slug,
@@ -18,22 +20,19 @@ const ArticleListItem = ({
                          }) => {
 
 const dispatch = useDispatch();
+const fetchNow = useFetch();
 
-    const likesHandler = async () => {
-            await fetch(`https://blog.kata.academy/api/articles/${slug}/favorite`, {
-                method: favorited ? 'DELETE' : 'POST',
-                body: JSON.stringify({slug: slug}),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${JSON.parse( await localStorage.getItem('user')).token}`
-                }
-            })
-        dispatch(getArticleList());
-    };
+    const likesHandler = () => {
+        const url = `https://blog.kata.academy/api/articles/${slug}/favorite`
+        const method = favorited ? 'DELETE' : 'POST'
+
+        fetchNow(url, {method}).then(data => dispatch(getArticleList()))
+
+    }
 
 
     return (
-        <div key={slug} className={classes['list-item']}>
+        <div className={classes['list-item']}>
             <div className={classes['article-info']}>
 
 
@@ -66,7 +65,7 @@ const dispatch = useDispatch();
                 <div className={classes.tags}>
                     {tagList.map(tag => {
                         if (!tag) return;
-                        return <span className={classes.tag}>{tag}</span>;
+                        return <span key={v4()} className={classes.tag}>{tag}</span>;
                     })}
                 </div>
 

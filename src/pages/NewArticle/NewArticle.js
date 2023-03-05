@@ -10,6 +10,8 @@ const NewArticle = () => {
     const navigate = useNavigate();
     const {slug} = useParams();
     const {article} = useSelector(state => state.article);
+    const {token} = useSelector(state => state.auth.user);
+
 
     const {
         register,
@@ -58,7 +60,7 @@ const NewArticle = () => {
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                    'Authorization': `Bearer ${token}`
                 }
             })
             if(res.ok) {

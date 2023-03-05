@@ -28,9 +28,6 @@ export const registerNewUser = createAsyncThunk('auth/registerNewUser',
             );
 
 
-            await console.log('Data', res.data)
-            console.log(res)
-
             if (res.data) {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 return res.data;
@@ -96,11 +93,9 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 
 
-
-
 // Edit User Info
 export const editUserInfo = createAsyncThunk('auth/editUserInfo',
-    async (user, {
+    async (userData, {
         thunkAPI,
         dispatch
     }) => {
@@ -109,15 +104,15 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
                 method: 'PUT',
                 body: JSON.stringify({
                     user: {
-                        username: user.username,
-                        email: user.email,
-                        password: user.password,
-                        image: user.image,
+                        username: userData.username,
+                        email: userData.email,
+                        password: userData.password,
+                        image: userData.image,
                     }
                 }),
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                    'Authorization': `Bearer ${user?.token}`
                 }
 
             })
@@ -136,14 +131,6 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
                     position: toast.POSITION.TOP_RIGHT
                 })
             }
-
-
-
-
-
-
-
-
 
         } catch (e) {
             return thunkAPI.rejectWithValue(e)
@@ -206,6 +193,7 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 console.log('Fulfilled')
+                console.log(action.payload)
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;

@@ -10,6 +10,8 @@ import {v4} from "uuid";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import {toast} from "react-toastify";
 import ReactMarkdown from 'react-markdown'
+import useFetch from "../../hook/useFetch";
+import {getArticleList} from "../../store/articleListActions";
 
 const Article = () => {
 
@@ -19,6 +21,7 @@ const Article = () => {
     const dispatch = useDispatch();
     const art = useSelector(state => state.article.article);
     const currentUser = useSelector(state => state.auth.user?.username);
+    const fetchNow = useFetch();
 
 
     useEffect(() => {
@@ -29,30 +32,46 @@ const Article = () => {
         /*message.error('Click on no');*/
     };
 
-    const deleteArticle = async () => {
 
-        /*message.success('The Article has been deleted');*/
-        try {
-            const res = await fetch(`https://blog.kata.academy/api/articles/${slug}`, {
+    const deleteArticle =  () => {
+
+            const data =  fetchNow(`https://blog.kata.academy/api/articles/${slug}`, {
                 method: 'DELETE',
-                body: JSON.stringify({slug: slug}),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+                body: {slug: slug}
+            })
+
+        toast.success('The Article has been deleted', {
+            position: toast.POSITION.TOP_RIGHT,
+        })
+
+        dispatch(getArticleList());
+        navigate('/')
+        /*
+                /!*message.success('The Article has been deleted');*!/
+                try {
+                    const res = deleteArticleQuery(slug);
+                    if (res.ok) {
+                        toast.success('The Article has been deleted', {
+                            position: toast.POSITION.TOP_RIGHT,
+                        })
+                    }
+                } catch (e) {
+                    console.log('Error: ', e.message)
                 }
-            });
-            if (res.ok) {
-                toast.success('The Article has been deleted', {
-                    position: toast.POSITION.TOP_RIGHT,
-                })
-            }
-        } catch (e) {
-            console.log('Error: ', e.message)
-        }
-        navigate('/');
+                ;*/
     };
 
 
+    const likesHandler = () => {
+        const url = `https://blog.kata.academy/api/articles/${slug}/favorite`
+        const method = art.favorited ? 'DELETE' : 'POST'
+
+        fetchNow(url, {method}).then(data => {
+            dispatch(getArticle(slug));
+        })
+
+    }
+    /*
     const likesHandler = async () => {
         try {
             const res = await fetch(`https://blog.kata.academy/api/articles/${slug}/favorite`, {
@@ -68,7 +87,7 @@ const Article = () => {
         }
         dispatch(getArticle(slug));
     };
-
+*/
 
     return (
 
@@ -162,11 +181,11 @@ const Article = () => {
 
                     </div>
 
-                        <p className={classes['article-body']}>
-                            <ReactMarkdown>
-                                {art.body}
-                            </ReactMarkdown>
-                        </p>
+                    <p className={classes['article-body']}>
+                        <ReactMarkdown>
+                            {art.body}
+                        </ReactMarkdown>
+                    </p>
                 </div>
 
 

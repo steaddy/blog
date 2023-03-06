@@ -23,11 +23,12 @@ const ArticleList = () => {
         <>
             <div className={classes['article-list']}>{
                 articleList.map(item => {
+
                     return <ArticleListItem
                         key={v4()}
                         slug={item.slug}
                         title={item.title}
-                        likes={item.favoritesCount}
+                        likes={item.likes}
                         description={item.description}
                         tagList={item.tagList}
                         image={item.image}

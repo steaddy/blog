@@ -20,7 +20,7 @@ const articleListSlice = createSlice({
                 return {
                     slug: item.slug,
                     title: item.title,
-                    likes: item.likes,
+                    likes: item.favoritesCount,
                     description: item.description,
                     tagList: item.tagList,
                     image: item.author.image,

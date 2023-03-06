@@ -99,6 +99,17 @@ export const editUserInfo = createAsyncThunk('auth/editUserInfo',
         thunkAPI,
         dispatch
     }) => {
+
+
+
+
+
+
+
+
+
+
+
         try {
             const res = await fetch('https://blog.kata.academy/api/user', {
                 method: 'PUT',
